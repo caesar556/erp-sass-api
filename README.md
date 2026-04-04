@@ -1,98 +1,176 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+🚀 ERP System Backend (NestJS + TypeORM)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A scalable, production-ready ERP backend built with NestJS, following a modular architecture and implementing a Double Entry Accounting System.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+🧠 Overview
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This project is designed as a modern ERP backend that supports:
 
-## Project setup
+- Multi-tenant architecture (Organization-based)
+- Double-entry accounting system
+- Modular and scalable code structure
+- Clean separation of concerns
+- High performance and async processing
 
-```bash
-$ pnpm install
-```
+---
 
-## Compile and run the project
+🏗️ Architecture
 
-```bash
-# development
-$ pnpm run start
+The system follows a layered architecture:
 
-# watch mode
-$ pnpm run start:dev
+Controller → Service → Posting → Journal → Accounts
 
-# production mode
-$ pnpm run start:prod
-```
+Core Flow
 
-## Run tests
+Transaction → PostingService → JournalService → Database
+                                 ↓
+                           AccountsService (balance & validation)
 
-```bash
-# unit tests
-$ pnpm run test
+---
 
-# e2e tests
-$ pnpm run test:e2e
+📦 Modules
 
-# test coverage
-$ pnpm run test:cov
-```
+1. Accounts Module
 
-## Deployment
+- Manages Chart of Accounts (COA)
+- Supports hierarchical accounts (parent/children)
+- Handles balance calculation from journal entries
+- Validates financial integrity
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+2. Treasury Module
 
-```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
-```
+- Represents physical or virtual cash locations
+- Each treasury is linked to an Account (ASSET)
+- Acts as a business abstraction layer over accounts
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+3. Transactions Module
 
-Check out a few resources that may come in handy when working with NestJS:
+- Handles business use cases
+- Initiates financial operations
+- Manages database transactions (atomic operations)
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
+4. Posting Module
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- Core accounting engine
+- Converts transactions into double-entry journal entries
+- Ensures accounting rules are applied correctly
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+5. Journal Module
 
-## License
+- Stores journal entries and lines
+- Ensures:
+  - Total Debit = Total Credit
+- Acts as the single source of truth
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+💰 Accounting System
+
+This system implements a Double Entry Accounting Model:
+
+- Every transaction creates balanced journal entries
+- No direct balance manipulation
+- All balances are derived from "journal_lines"
+
+Example
+
+Debit: Cash Account       1000
+Credit: Revenue Account   1000
+
+---
+
+⚙️ Tech Stack
+
+- Framework: NestJS
+- ORM: TypeORM
+- Database: PostgreSQL
+- Language: TypeScript
+
+---
+
+⚡ Performance & Scaling
+
+Redis (Planned Integration)
+
+- Caching frequently accessed data (e.g., balances)
+- Session storage
+- Rate limiting
+
+BullMQ (Planned Integration)
+
+- Background job processing
+- Queue-based architecture
+- Use cases:
+  - Recalculating balances
+  - Sending notifications
+  - Heavy financial computations
+
+---
+
+🤖 AI Integration (Gemini)
+
+The system will integrate Google Gemini AI to enhance ERP capabilities:
+
+Planned Features:
+
+- Smart financial insights
+- Natural language queries (e.g., "What are my expenses this month?")
+- Automated report generation
+- Anomaly detection in transactions
+
+---
+
+🔐 Security
+
+- JWT-based authentication
+- Organization-level data isolation
+- Validation and error handling using NestJS pipes
+- Transaction-safe database operations
+
+---
+
+🧱 Design Principles
+
+- Modular Architecture
+- Single Responsibility Principle
+- Separation of Concerns
+- Scalable & Maintainable Codebase
+- Database Transactions for Consistency
+
+---
+
+🚧 Future Enhancements
+
+- Trial Balance
+- General Ledger
+- Financial Statements (P&L, Balance Sheet)
+- Multi-currency support
+- Role-Based Access Control (RBAC)
+- Audit Logs
+- SaaS Billing System
+
+---
+
+🛠️ Getting Started
+
+# Install dependencies
+pnpm install
+
+# Run development server
+pnpm run start:dev
+
+# Build project
+pnpm run build
+
+# Run production
+pnpm run start:prod
