@@ -7,6 +7,10 @@ import { TreasuriesModule } from './treasuries/treasuries.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { AccountModule } from './account/account.module';
 import { JournalModule } from './journal/journal.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { TransactionsModule } from './transactions/transactions.module';
+import { PostingModule } from './posting/posting.module';
 
 @Module({
   imports: [
@@ -30,6 +34,10 @@ import { JournalModule } from './journal/journal.module';
     OrganizationsModule,
     AccountModule,
     JournalModule,
+    AuthModule,
+    UsersModule,
+    TransactionsModule,
+    PostingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

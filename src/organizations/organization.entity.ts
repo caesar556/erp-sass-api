@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Treasury } from '../treasuries/treasury.entity';
+import { Account } from '../account/account.entity';
 
 @Entity('organization')
 export class Organization {
@@ -21,6 +22,9 @@ export class Organization {
 
   @OneToMany(() => Treasury, (treasury) => treasury.organization)
   treasuries: Treasury[];
+
+  @OneToMany(() => Account, (acc) => acc.organization)
+  accounts: Account[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

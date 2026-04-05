@@ -8,6 +8,8 @@ import {
   UpdateDateColumn
 } from 'typeorm';
 import { AccountType } from '../utils/enums';
+import { JournalLine } from '../journal/entities/journal_lines.entity';
+import { Organization } from '../organizations/organization.entity';
 
 @Entity('accounts')
 export class Account {
@@ -28,6 +30,12 @@ export class Account {
     onDelete: 'SET NULL',
   })
   parent?: Account;
+
+  @ManyToOne(() => Organization, (org) => org.accounts)
+  organization: Organization;
+
+  @OneToMany(() => JournalLine, (line) => line.account)
+  journalLines: JournalLine[];
 
   @OneToMany(() => Account, (a) => a.parent)
   children: Account[];

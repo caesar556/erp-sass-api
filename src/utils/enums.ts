@@ -5,3 +5,16 @@ export enum AccountType {
   REVENUE = 'revenue',
   EXPENSE = 'expense',
 }
+
+export enum PaymentMethods {
+  CASH = 'cash',
+  CHEQUE = 'cheque',
+  TRANSFER = 'transfer',
+}
+
+export enum TransactionReference {
+  CUSTOMER_ACCOUNT = 'CUSTOMER_ACCOUNT',
+  SUPPLIER_ACCOUNT = 'SUPPLIER_ACCOUNT',
+  EXPENSE = 'EXPENSE',
+  REVENUE = 'REVENUE',
+}
