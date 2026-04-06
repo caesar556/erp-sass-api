@@ -31,7 +31,7 @@ export class Account {
   })
   parent?: Account;
 
-  @ManyToOne(() => Organization, (org) => org.accounts)
+  @ManyToOne(() => Organization, (org) => org.accounts, { nullable: false })
   organization: Organization;
 
   @OneToMany(() => JournalLine, (line) => line.account)

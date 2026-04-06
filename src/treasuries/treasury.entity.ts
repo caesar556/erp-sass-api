@@ -23,6 +23,7 @@ export class Treasury {
 
   @ManyToOne(() => Organization, (org) => org.treasuries, {
     onDelete: 'CASCADE',
+    nullable: false
   })
   organization: Organization;
 
@@ -32,6 +33,4 @@ export class Treasury {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
 }  

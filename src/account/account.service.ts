@@ -10,43 +10,56 @@ export class AccountService {
     @InjectRepository(Account)
     private readonly accountRepo: Repository<Account>,
   ) { }
-  // organztion will add but now 
   async create(data: {
-  name: string;
-  type: AccountType;
-  parentId?: string;
-}): Promise<Account> {
-  const { name, type, parentId } = data;
+    name: string;
+    type: AccountType;
+    organizationId: string;
+    parentId?: string;
+  }): Promise<Account> {
 
-  if (!name) throw new BadRequestException('Account name is required');
+    const { name, type, parentId, organizationId } = data;
 
-  if (!Object.values(AccountType).includes(type)) {
-    throw new BadRequestException('Invalid account type');
-  }
-
-  let parent: Account | undefined;
-
-  if (parentId) {
-    const foundParent = await this.accountRepo.findOne({
-      where: { id: parentId }
-    });
-
-    if (!foundParent) {
-      throw new BadRequestException('Parent account not found');
+    if (!organizationId) {
+      throw new BadRequestException('organization ID is required');
     }
 
-    parent = foundParent;
+    let parent: Account | undefined;
+
+    if (parentId) {
+      const foundParent = await this.accountRepo.findOne({
+        where: {
+          id: parentId,
+          organization: { id: organizationId },
+        },
+      });
+
+      if (!foundParent) {
+        throw new BadRequestException('Parent account not found');
+      }
+
+      parent = foundParent;
+    }
+
+    const existing = await this.accountRepo.findOne({
+      where: {
+        name,
+        organization: { id: organizationId },
+      },
+    });
+
+    if (existing) {
+      return existing;
+    }
+
+    const account = this.accountRepo.create({
+      name,
+      type,
+      organization: { id: organizationId },
+      ...(parent && { parent }),
+    });
+
+    return this.accountRepo.save(account);
   }
-
-  const accountData: Partial<Account> = {
-    name,
-    type,
-    ...(parent && { parent }) 
-  };
-
-  const account = this.accountRepo.create(accountData);
-  return this.accountRepo.save(account);
-}
 
 
 }

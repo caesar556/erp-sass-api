@@ -1,4 +1,5 @@
-import { PaymentMethods, TransactionReference } from '../../utils/enums';
+import { IsEnum } from 'class-validator';
+import { PaymentMethods, TransactionReference, MoneyStatus } from '../../utils/enums';
 
 export class PostNormalTransactionDto {
   name: string;
@@ -6,14 +7,14 @@ export class PostNormalTransactionDto {
 
   treasuryId: string;
   offsetAccountId: string;
-
-  type: 'IN' | 'OUT';
+   @IsEnum(MoneyStatus)
+  type: MoneyStatus;
   amount: number;
 
   organizationId: string;
-
+  @IsEnum(PaymentMethods)
   paymentMethod?: PaymentMethods;
-
+  @IsEnum(TransactionReference)
   reference: TransactionReference;
   referenceId?: string;
 }

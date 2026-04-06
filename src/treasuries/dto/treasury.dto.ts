@@ -15,4 +15,8 @@ export class CreateTreasuryDto {
   @IsString()
   @Length(0, 150)
   description?: string;
+  
+  @IsNotEmpty()
+  @IsString()
+  organizationId: string;
 }

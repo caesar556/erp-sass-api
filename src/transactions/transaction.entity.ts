@@ -11,7 +11,6 @@ import {
 import { Treasury } from '../treasuries/treasury.entity';
 import { JournalEntry } from '../journal/entities/journal_entries.entity';
 import { Organization } from '../organizations/organization.entity';
-import { PaymentMethods, TransactionReference } from '../utils/enums';
 
 
 @Entity('transactions')
@@ -28,27 +27,17 @@ export class Transaction {
   @Column('numeric', { precision: 18, scale: 2 })
   amount: number;
 
-  @Column({
-    type: 'enum',
-    enum: ['IN', 'OUT'],
-  })
-  type: 'IN' | 'OUT';
+  @Column()
+  type: string;
 
-  @Column({
-    type: 'enum',
-    enum: PaymentMethods,
-    default: PaymentMethods.CASH,
-  })
-  paymentMethod: PaymentMethods;
+  @Column()
+  paymentMethod: string;
 
-  @ManyToOne(() => Organization)
+  @ManyToOne(() => Organization, { nullable: false })
   organization: Organization;
 
-  @Column({
-    type: 'enum',
-    enum: TransactionReference,
-  })
-  reference: TransactionReference;
+  @Column()
+  reference: string;
 
   @ManyToOne(() => Treasury)
   treasury: Treasury;

@@ -12,7 +12,10 @@ export class TreasuriesController {
   }
   @Post()
   create(@Body() dto: CreateTreasuryDto) {
-    return this.treasuriesService.create(dto.name);
+    return this.treasuriesService.create(
+      dto.name,
+      dto.organizationId
+    );
   }
 
 }

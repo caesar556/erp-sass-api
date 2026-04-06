@@ -18,3 +18,8 @@ export enum TransactionReference {
   EXPENSE = 'EXPENSE',
   REVENUE = 'REVENUE',
 }
+
+export enum MoneyStatus {
+  IN = "IN",
+  OUT = "OUT",
+}
